@@ -9,3 +9,5 @@ I will probably refactor some things later (the menu system feels all kinds of o
 
 If you feel so inclined 
 to give constructive feedback I'm open to it. 
+
+Messed up the commits. New master.
