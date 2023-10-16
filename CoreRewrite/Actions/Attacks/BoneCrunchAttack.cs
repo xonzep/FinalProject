@@ -17,5 +17,6 @@ public class BoneCrunchAttack : BaseAction
         Console.WriteLine($"{executingActor.Name} uses Bone Crunch on {target.Name} and does {Damage} damage.");
         target.TakeDamage(Damage);
         Console.WriteLine($"{target.Name}'s health is now {target.CurrentHp}/{target.MaxHp}.");
+        Console.WriteLine();
     }
 }

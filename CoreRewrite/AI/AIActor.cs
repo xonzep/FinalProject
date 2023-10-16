@@ -9,11 +9,11 @@ public class AIActor
 {
     private readonly List<IActor> _actorList;
     private readonly List<IActions> _attackActionsList;
-    private List<IActions> _defendActionsList;
-    private List<IActions> _itemActionList;
+    private readonly List<IActions> _defendActionsList;
+    //private List<IActions> _itemActionList;
     private readonly PartyManager _partyManager;
     private readonly IActor _executingActor;
-
+    public bool hasAttacked = false;
     public AIActor( PartyManager partyManager, IActor executingActor)
     {
         _actorList = partyManager.HeroParty.PartyMembers;
@@ -42,19 +42,23 @@ public class AIActor
         
         
         //Check if our health is maxed and attack if so.
-        if (_executingActor.CurrentHp == _executingActor.MaxHp)
+        if (_executingActor.CurrentHp <= _executingActor.MaxHp && !hasAttacked)
         {
             attackAction.Execute(_executingActor, ReturnLowestHpActor(_actorList));
+            hasAttacked = true;
         }
-        else if (partyHealth.Item1 >= partyHealth.Item2)
+        
+        if (_executingActor.CurrentHp <= _executingActor.MaxHp / 2 && !hasAttacked)
         {
             if (_random.Next(2) == 1)
             {
                 defendAction.Execute(_executingActor, _executingActor);
+                hasAttacked = true;
             }
             else
             {
                 attackAction.Execute(_executingActor, ReturnLowestHpActor(_actorList));
+                hasAttacked = true;
             }
         }
         
@@ -62,7 +66,7 @@ public class AIActor
 
     //We need a way to choose a target. This is simple for now, but I need to add some randomness to it cause otherwise it's just attrition.
     //Doing it by health and a random number might be enough, but I'd like something like 'focus who did most damage last turn' or something.
-    private IActor ReturnLowestHpActor(List<IActor> actorList)
+    private static IActor ReturnLowestHpActor(List<IActor> actorList)
     {
         IActor previousActor = actorList[0];
         foreach (IActor actor in actorList)

@@ -15,6 +15,7 @@ public class PunchAttack : BaseAction
         Console.WriteLine($"{executingActor.Name} punches {target.Name} and does {Damage} damage.");
         target.TakeDamage(Damage);
         Console.WriteLine($"{target.Name}'s health is now {target.CurrentHp}/{target.MaxHp}.");
+        Console.WriteLine();
         
     }
     //I don't think I need an AI execute. It shouldn't matter who is executing, the call is the same.

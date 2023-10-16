@@ -18,12 +18,11 @@ public class TurnManager
     private PartyManager PartyManager { get; }
 
     public readonly Menu _actionMenu;
-    public Menu _targetMenu;
-    public Menu _attackMenu;
-    private Menu _itemMenu;
-    public Menu _defendMenu;
+    public Menu _targetMenu = null!;
+    public Menu _attackMenu = null!;
+    //private Menu _itemMenu;
+    public Menu _defendMenu = null!;
     private List<IActor> _enemyParty;
-    private List<IActor> _heroParty;
     private readonly DisplayMenuItems _displayMenuItems;
 
     public TurnManager(PartyManager partyManager)
@@ -42,46 +41,53 @@ public class TurnManager
         {
             foreach (IActor member in _turnList)
             {
-               
-                if (member.team == Teams.AI)
+                switch (member.team)
                 {
-                    member.Death(PartyManager.EnemyParty);
-                    Thread.Sleep(500);
-                    Console.WriteLine($"It is {member.Name.ToUpper()}'s turn.");
-                    Console.WriteLine();
-                    AIActor actorAI = new(PartyManager, member);
-                    actorAI.AIChoice();
-                    
-
-                }
-                else if (member.team == Teams.Player)
-                {
-                    _enemyParty = PartyManager.EnemyParty.PartyMembers;
-                    _targetMenu = new Menu(_enemyParty);
-
-                    member.Death(PartyManager.HeroParty);
-                    Thread.Sleep(500);
-                    Console.WriteLine();
-                    Console.WriteLine($"It is {member.Name.ToUpper()}'s turn.");
-                    IActions choice = _displayMenuItems.DisplayActionsMenu();
-                    Console.WriteLine(member.isBlock);
-                    
-                    switch (choice.Name)
+                    case Teams.AI:
                     {
-                        case "Attack":
+                        AIActor actorAI = new(PartyManager, member);
+                        member.Death(PartyManager.EnemyParty);
+                        if (member.IsAlive)
                         {
-                            IActor target = _displayMenuItems.DisplayTargetMenu();
-                            //This is getting called each time.
-                            _attackMenu = new Menu(member.ReturnAttackList());
-                            _displayMenuItems.DisplayAttackMenu(target, member);
-                            break;
+                            Thread.Sleep(500);
+                            Console.WriteLine();
+                            Console.WriteLine($"It is {member.Name.ToUpper()}'s turn.");
+                            Console.WriteLine();
+                            actorAI.AIChoice();
                         }
-                        case "Defend":
-                            _defendMenu = new Menu(member.ReturnDefendList());
-                            _displayMenuItems.DisplayDefendMenu(member, member);
-                            break;
+
+                        break;
                     }
+                    case Teams.Player:
+                    {
+                        _enemyParty = PartyManager.EnemyParty.PartyMembers;
+                        _targetMenu = new Menu(_enemyParty);
+
+                        member.Death(PartyManager.HeroParty);
+                        Thread.Sleep(500);
+                        Console.WriteLine();
+                        Console.WriteLine($"It is {member.Name.ToUpper()}'s turn.");
+                        IActions choice = _displayMenuItems.DisplayActionsMenu();
+                        Console.WriteLine(member.isBlock);
                     
+                        switch (choice.Name)
+                        {
+                            case "Attack":
+                            {
+                                IActor target = _displayMenuItems.DisplayTargetMenu();
+                                //This is getting called each time.
+                                _attackMenu = new Menu(member.ReturnAttackList());
+                                _displayMenuItems.DisplayAttackMenu(target, member);
+                                break;
+                            }
+                            case "Defend":
+                                _defendMenu = new Menu(member.ReturnDefendList());
+                                _displayMenuItems.DisplayDefendMenu(member, member);
+                                break;
+                        }
+
+                        break;
+                    }
                 }
             }
         }

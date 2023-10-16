@@ -72,9 +72,6 @@ public class Menu
     public void GetAction(IActions userChoice, IActor executingActor, IActor target)
     {
         //Same thing, our input already checks the range.
-        if (executingActor.team == Teams.Player)
-        {
             userChoice.Execute(executingActor, target);
-        }
     }
 }

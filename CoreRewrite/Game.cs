@@ -10,11 +10,15 @@ public static class Game
 
     public static void GameLoop()
     {
-        if (PartyManager.EnemyParty == null || PartyManager.HeroParty == null)
+
+        while (Play)
         {
-            Play = false;
+            TurnManager.RunTurn();
+            if (PartyManager.EnemyParty.PartyMembers.Count == 0 || PartyManager.HeroParty.PartyMembers.Count == 0)
+            {
+                Play = false;
+            }
         }
-        while (Play) TurnManager.RunTurn();
     }
     
 }

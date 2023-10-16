@@ -45,6 +45,7 @@ public interface IActor
     {
         if (CurrentHp == 0)
         {
+            Console.WriteLine($"{Name} has died.");
             IsAlive = false;
             party.RemoveActor(this);
         }

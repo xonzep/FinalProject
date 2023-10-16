@@ -10,7 +10,7 @@ public class BlockAction : BaseAction
 
     public override void Execute(IActor executingActor, IActor target)
     {
-        Console.WriteLine($"{executingActor} chooses to block incoming damage for one attack.");
+        Console.WriteLine($"{executingActor.Name} chooses to block incoming damage for one attack.");
         executingActor.isBlock = true;
     }
 }

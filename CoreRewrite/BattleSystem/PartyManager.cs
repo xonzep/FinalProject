@@ -5,8 +5,8 @@ using Final.CoreRewrite.UI;
 namespace Final.CoreRewrite.BattleSystem;
 public class PartyManager
 {
-    public Party HeroParty;
-    public Party EnemyParty;
+    public Party HeroParty = null!;
+    public Party EnemyParty = null!;
 
     public PartyManager()
     {
