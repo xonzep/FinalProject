@@ -4,7 +4,7 @@ namespace Final.CoreRewrite.Actions.Attacks;
 
 public class PunchAttack : BaseAction
 {
-    private const int Damage = 2;
+    private const int Damage = 5;
 
     public PunchAttack(string name) : base(name)
     {
