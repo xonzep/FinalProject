@@ -7,7 +7,7 @@ using Final.CoreRewrite.UI;
 
 //Handles the actual turn based system.
 
-//I hate all the if statements to check battle number here. But that's poor planning on my part and I'm sure there are
+//I hate all the switch statements to check battle number here. But that's poor planning on my part and I'm sure there are
 //better ways.
 //This works for now.
 
@@ -37,7 +37,6 @@ public class TurnManager
 
     public void RunTurn()
     {
-        //issue is this is always returning true.
         if (PartyManager.EnemyParty.PartyMembers.Count == 0 && BattleNumber == 1)
         {
             BattleNumber = 2;
@@ -45,6 +44,15 @@ public class TurnManager
             Console.WriteLine("Another challenger appears!");
             
             
+        }
+        
+        if (PartyManager.EnemyParty2.PartyMembers.Count == 0 && BattleNumber == 2)
+        {
+            BattleNumber = 3;
+            Thread.Sleep(300);
+            Console.WriteLine();
+            Console.WriteLine("You face the UnCoded One!");
+            Thread.Sleep(500);
         }
         _turnList = CombineLists();
        
@@ -58,13 +66,17 @@ public class TurnManager
                     case Teams.AI:
                     {
                         AIActor actorAI = new(PartyManager, member);
-                        if (BattleNumber == 1)
+                        switch (BattleNumber)
                         {
-                            member.Death(PartyManager.EnemyParty);
-                        }
-                        else if (BattleNumber == 2)
-                        {
-                            member.Death(PartyManager.EnemyParty2);
+                            case 1:
+                                member.Death(PartyManager.EnemyParty);
+                                break;
+                            case 2:
+                                member.Death(PartyManager.EnemyParty2);
+                                break;
+                            case 3:
+                                member.Death(PartyManager.EnemyPartyBoss);
+                                break;
                         }
 
                         if (member.IsAlive)
@@ -80,15 +92,21 @@ public class TurnManager
                     }
                     case Teams.Player:
                     {
-                        if (BattleNumber == 1)
+                        switch (BattleNumber)
                         {
-                            _enemyParty = PartyManager.EnemyParty.PartyMembers;
-                            _targetMenu = new Menu(_enemyParty);
-                        }
-                        else if (BattleNumber == 2)
-                        {
-                            _enemyParty = PartyManager.EnemyParty2.PartyMembers;
-                            _targetMenu = new Menu(_enemyParty);
+                            case 1:
+                                _enemyParty = PartyManager.EnemyParty.PartyMembers;
+                                _targetMenu = new Menu(_enemyParty);
+                                break;
+                            case 2:
+                                _enemyParty = PartyManager.EnemyParty2.PartyMembers;
+                                _targetMenu = new Menu(_enemyParty);
+                                break;
+                            case 3:
+                                _enemyParty = PartyManager.EnemyPartyBoss.PartyMembers;
+                                _targetMenu = new Menu(_enemyParty);
+
+                                break;
                             
                         }
 
@@ -135,6 +153,9 @@ public class TurnManager
                 break;
             case 2:
                 _turnOrder.AddRange(PartyManager.EnemyParty2.PartyMembers);
+                break;
+            case 3:
+                _turnOrder.AddRange(PartyManager.EnemyPartyBoss.PartyMembers);
                 break;
         }
 

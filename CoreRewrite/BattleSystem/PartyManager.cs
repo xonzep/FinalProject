@@ -8,12 +8,23 @@ public class PartyManager
     public Party HeroParty = null!;
     public Party EnemyParty = null!;
     public Party EnemyParty2 = null!;
+    public Party EnemyPartyBoss = null!;
 
     public PartyManager()
     {
         HeroPartySetup();
         EnemyPartySetup();
         EnemyPartyTwoSetup();
+        EnemyPartyBossSetup();
+    }
+
+    private void EnemyPartyBossSetup()
+    {
+        UnCoded uncoded = new UnCoded("The UnCoded One");
+        EnemyPartyBoss = new Party();
+        EnemyPartyBoss.AddActor(uncoded);
+
+        foreach (IActor mem in EnemyPartyBoss.PartyMembers) mem.team = Teams.AI;
     }
 
     private void HeroPartySetup()
@@ -49,7 +60,7 @@ public class PartyManager
         EnemyParty2.AddActor(eSkeleton1);
         EnemyParty2.AddActor(eSkeleton2);
         
-        foreach (IActor mem in EnemyParty.PartyMembers) mem.team = Teams.AI;
+        foreach (IActor mem in EnemyParty2.PartyMembers) mem.team = Teams.AI;
     }
     public static (int CurrentHP, int MaxHP) ReturnPartyHealth(Party party)
     {

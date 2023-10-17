@@ -14,10 +14,10 @@ public static class Game
         while (Play)
         {
             TurnManager.RunTurn();
-            if (TurnManager.BattleNumber == 2)
+            if (TurnManager.BattleNumber == 3)
             {
                 //I feel like this is terrible.
-                if (PartyManager.EnemyParty.PartyMembers.Count == 0 && PartyManager.EnemyParty2.PartyMembers.Count == 0 || PartyManager.HeroParty.PartyMembers.Count == 0)
+                if (PartyManager.EnemyPartyBoss.PartyMembers.Count == 0 || PartyManager.HeroParty.PartyMembers.Count == 0)
                 {
                     Play = false;
                 }

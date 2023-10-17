@@ -2,21 +2,22 @@ using Final.CoreRewrite.Actors;
 
 namespace Final.CoreRewrite.Actions.Attacks;
 
-public class PunchAttack : BaseAction
+public class UnravelingAttack : BaseAction
 {
-    private const int Damage = 3;
-
-    public PunchAttack(string name) : base(name)
+    private static readonly Random _random = new();
+    private int Damage = _random.Next(3);
+    public UnravelingAttack(string name) : base(name)
     {
         
     }
+    
     public override void Execute(IActor executingActor, IActor target)
     {
-        Console.WriteLine($"{executingActor.Name} punches {target.Name} and does {Damage} damage.");
+        Console.WriteLine($"{executingActor.Name} uses Unraveling on {target.Name} and does {Damage} damage!");
+        Console.WriteLine();
         target.TakeDamage(Damage);
         Console.WriteLine($"{target.Name}'s health is now {target.CurrentHp}/{target.MaxHp}.");
         Console.WriteLine();
         
     }
-    //I don't think I need an AI execute. It shouldn't matter who is executing, the call is the same.
 }
