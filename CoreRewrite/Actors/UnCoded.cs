@@ -42,7 +42,6 @@ public class UnCoded : IActor
     }
     public void OnTurn()
     {
-        throw new NotImplementedException();
     }
 
     public void ActorAttacksList()
